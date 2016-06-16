@@ -9,23 +9,6 @@ package dushyant.lib.datastructures;
  */
 public class AVLTree<T extends Comparable<T>> {
 
-    public class Node{
-        T data;
-
-        //every Node will have height > 0
-        int height = 1;
-        Node left, right, parent;
-
-        public Node(T data){
-            this.data = data;
-        }
-
-        public Node(T data, Node parent){
-            this.data = data;
-            this.parent = parent;
-        }
-    }
-
     private Node root;
 
     public AVLTree(){}
@@ -90,21 +73,24 @@ public class AVLTree<T extends Comparable<T>> {
         deletionBalance(parent);
     }
 
-
     public T max(){
         Node node = root;
+        T data = null;
         while (node.right != null){
             node = node.right;
         }
-        return node.data;
+        data = node.data;
+        return data;
     }
 
     public T min(){
         Node node = root;
+        T data = null;
         while (node.left != null){
             node = node.left;
         }
-        return node.data;
+        data = node.data;
+        return data;
     }
 
     public T successor(T data){
@@ -236,10 +222,10 @@ public class AVLTree<T extends Comparable<T>> {
             parent = parent.parent;
         }
     }
-    
+
     private Node nodeDeletion(Node node) {
         Node parent = node.parent;
-        
+
         //Case: leaf
         if (isLeaf(node)) {
             parent = caseLeaf(node);
@@ -249,25 +235,25 @@ public class AVLTree<T extends Comparable<T>> {
         else if(hasOneChild(node)) {
             parent = caseOneChild(node);
         }
-        
+
         //Case: two children
         else{
             parent = caseTwoChildren(node);
         }
-        
+
         return parent;
     }
 
     private boolean isLeaf(Node node){
         return node.left == null && node.right == null;
     }
-    
+
     private Node caseLeaf(Node node){
         Node parent = node.parent;
         if (parent == null) {
             root = null;
         } else {
-            if (node.data.compareTo(parent.data) > 0) parent.right = null;
+            if (node == parent.right) parent.right = null;
             else parent.left = null;
         }
         return parent;
@@ -287,16 +273,12 @@ public class AVLTree<T extends Comparable<T>> {
         }
         return node;
     }
-    
+
     private Node caseTwoChildren(Node node){
         Node successor = getSuccessor(node);
         node.data = successor.data;
-        node = successor.parent;
 
-        if(successor == node.left) node.left = null;
-        else node.right = null;
-
-        return node;
+        return nodeDeletion(successor);
     }
 
     private Node getSuccessor(Node node) {
@@ -338,8 +320,7 @@ public class AVLTree<T extends Comparable<T>> {
     private void changeHeight(Node parent){
         parent.height = Math.max(height(parent.left), height(parent.right)) + 1;
     }
-    
-    
+
     //this method will rotate left i.e. counterclockwise so the pivotNode will become the new left child and
     //its right child will become the new parent node(the previous position of pivotNode)
     //		  z                                 y
@@ -397,6 +378,23 @@ public class AVLTree<T extends Comparable<T>> {
         changeHeight(y);
 
         return y;
+    }
+
+    private class Node {
+        T data;
+
+        //every Node will have height > 0
+        int height = 1;
+        Node left, right, parent;
+
+        public Node(T data) {
+            this.data = data;
+        }
+
+        public Node(T data, Node parent) {
+            this.data = data;
+            this.parent = parent;
+        }
     }
 
 }
