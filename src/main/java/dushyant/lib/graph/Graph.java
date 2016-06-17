@@ -20,11 +20,24 @@ public class Graph {
         this.vertices = vertices;
     }
 
+    public void clearVisited() {
+        for (Vertex v :
+                vertices) {
+            v.visited = false;
+        }
+    }
+
     public void BFS() {
-        BFS(vertices.get(0));
+        for (Vertex v :
+                vertices) {
+            if (!v.visited) {
+                BFS(v);
+            }
+        }
     }
 
     public void BFS(Vertex root) {
+        visit(root);
         root.visited = true;
         Queue<Vertex> queue = new LinkedList<>();
         queue.add(root);
@@ -33,7 +46,7 @@ public class Graph {
             for (Vertex v :
                     u.neighbors) {
                 if (!v.visited) {
-                    visit(u, v);
+                    visit(v);
                     v.visited = true;
                     queue.add(v);
                 }
@@ -41,7 +54,27 @@ public class Graph {
         }
     }
 
-    public void visit(Vertex parent, Vertex child) {
-        System.out.println(parent.name + "'s child " + child.name);
+    public void DFS() {
+        for (Vertex v :
+                vertices) {
+            if (!v.visited) {
+                DFS(v);
+            }
+        }
+    }
+
+    public void DFS(Vertex root) {
+        visit(root);
+        root.visited = true;
+        for (Vertex v :
+                root.neighbors) {
+            if (!v.visited) {
+                DFS(v);
+            }
+        }
+    }
+
+    public void visit(Vertex v) {
+        System.out.println("Visited " + v.name);
     }
 }

@@ -19,8 +19,11 @@ public class GraphTest {
 
         e.neighbors.add(a);
 
-        Vertex[] arr = {a, b, c, d};
+        Vertex[] arr = {a, b, c, d, e};
         Graph graph = new Graph(Arrays.asList(arr));
         graph.BFS();
+        graph.clearVisited();
+        System.out.println("//////");
+        graph.DFS();
     }
 }
