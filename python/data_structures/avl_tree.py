@@ -68,7 +68,7 @@ class AVLTree:
 
         return self.__balance(node)
 
-    def __remove(self, node: Optional[Node], value) -> Node:
+    def __remove(self, node: Optional[Node], value) -> Optional[Node]:
         if node is None:
             return None
 
@@ -104,12 +104,12 @@ class AVLTree:
 
     def __balance(self, node: Node) -> Node:
         if node.bf == -2:
-            if node.left.bf <= 0:
+            if node.left.bf <= 0:  # type: ignore
                 return self.__left_left_case(node)
             else:
                 return self.__left_right_case(node)
         elif node.bf == 2:
-            if node.right.bf >= 0:
+            if node.right.bf >= 0:  # type: ignore
                 return self.__right_right_case(node)
             else:
                 return self.__right_left_case(node)
@@ -120,35 +120,35 @@ class AVLTree:
         return self.__right_rotate(node)
 
     def __left_right_case(self, node: Node) -> Node:
-        node.left = self.__left_rotate(node.left)
+        node.left = self.__left_rotate(node.left)  # type: ignore
         return self.__left_left_case(node)
 
     def __right_right_case(self, node: Node) -> Node:
         return self.__left_rotate(node)
 
     def __right_left_case(self, node: Node) -> Node:
-        node.right = self.__right_rotate(node.right)
+        node.right = self.__right_rotate(node.right)  # type: ignore
         return self.__right_right_case(node)
 
     def __left_rotate(self, node: Node) -> Node:
         new_parent = node.right
-        node.right = new_parent.left
-        new_parent.left = node
+        node.right = new_parent.left  # type: ignore
+        new_parent.left = node  # type: ignore
 
         self.__update(node)
-        self.__update(new_parent)
+        self.__update(new_parent)  # type: ignore
 
-        return new_parent
+        return new_parent  # type: ignore
 
     def __right_rotate(self, node: Node) -> Node:
         new_parent = node.left
-        node.left = new_parent.right
-        new_parent.right = node
+        node.left = new_parent.right  # type: ignore
+        new_parent.right = node  # type: ignore
 
         self.__update(node)
-        self.__update(new_parent)
+        self.__update(new_parent)  # type: ignore
 
-        return new_parent
+        return new_parent  # type: ignore
 
     def __find_max(self, node: Node):
         while node.right is not None:
