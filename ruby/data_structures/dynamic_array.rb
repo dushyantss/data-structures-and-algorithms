@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class DynamicArray
+  include Enumerable
+
   DEFAULT_CAPACITY = 8
 
   # @param cap [Integer]
@@ -56,6 +58,10 @@ class DynamicArray
   # @param other [Array]
   def concat(other)
     other.each { |v| self << v }
+  end
+
+  def each(&block)
+    arr.each(&block)
   end
 
   private
