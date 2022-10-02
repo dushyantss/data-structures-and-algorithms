@@ -142,26 +142,22 @@ module DataStructures
     end
 
     def each
-      if block_given?
-        node = head
-        until node.nil?
-          yield node.value
-          node = node.nxt
-        end
-      else
-        to_enum(:each)
+      return to_enum(:each) unless block_given?
+
+      node = head
+      until node.nil?
+        yield node.value
+        node = node.nxt
       end
     end
 
     def reverse_each
-      if block_given?
-        node = tail
-        until node.nil?
-          yield node.value
-          node = node.prev
-        end
-      else
-        to_enum(:reverse_each)
+      return to_enum(:reverse_each) unless block_given?
+
+      node = tail
+      until node.nil?
+        yield node.value
+        node = node.prev
       end
     end
 
