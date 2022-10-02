@@ -61,6 +61,18 @@ module DataStructures
       refute list.contains(36)
     end
 
+    def test_each
+      list = large_list_with_dummy_data
+
+      assert_equal [1, 2, 3, 4, 5, 6], list.each.map(&:itself)
+    end
+
+    def test_reverse_each
+      list = large_list_with_dummy_data
+
+      assert_equal [6, 5, 4, 3, 2, 1], list.reverse_each.map(&:itself)
+    end
+
     private
 
     def list_with_dummy_data
