@@ -28,10 +28,10 @@ module DataStructures
     end
 
     def <<(value)
-      append_end(value)
+      append_last(value)
     end
 
-    def append_start(value)
+    def append_first(value)
       node = Node.new(value: value, nxt: head)
       self.size += 1
 
@@ -43,7 +43,7 @@ module DataStructures
       self.size += 1
     end
 
-    def append_end(value)
+    def append_last(value)
       node = Node.new(value: value, prev: tail)
       self.size += 1
 
@@ -53,30 +53,92 @@ module DataStructures
       self.tail = node
     end
 
-    def peek_start
+    def peek_first
       head&.value
     end
 
-    def peek_end
+    def peek_last
       tail&.value
     end
 
-    def remove_start
+    # @return the value of the Node
+    def remove_first
       return if empty?
 
       self.size -= 1
-
       result = head.value
 
-      old_head = head
       self.head = head.nxt
-      if head.nil?
+      if empty?
         self.tail = nil
       else
-        old_head.nxt = head.prev = nil
+        head.prev.nxt = nil
+        head.prev = nil
       end
 
       result
+    end
+
+    # @return the value of the Node
+    def remove_last
+      return if empty?
+
+      self.size -= 1
+      result = tail.value
+
+      self.tail = tail.prev
+      if empty?
+        self.head = nil
+      else
+        tail.nxt.prev = nil
+        tail.nxt = nil
+      end
+
+      result
+    end
+
+    # @param index [Integer]
+    # @return the value of the Node
+    def remove_at(index)
+      raise ArgumentError, "index: #{index} out of range" if index.negative? || index >= size
+
+      return remove_first if index.zero?
+      return remove_last if (index + 1) == size
+
+      node = nil
+      if index <= (size / 2)
+        node = head
+        index.times { node = node.nxt }
+      else
+        node = tail
+        (size - index - 1).times { node = node.prev }
+      end
+
+      remove_node(node)
+    end
+
+    # @param value [Object] the value to find
+    def remove(value)
+      i = index_of(value)
+      return unless i
+
+      remove_at(i)
+    end
+
+    # @param value [Object] the value to find
+    def index_of(value)
+      i = 0
+      node = head
+      while node && node.value != value
+        i += 1
+        node = node.nxt
+      end
+
+      return i if node
+    end
+
+    def contains(value)
+      !index_of(value).nil?
     end
 
     private
@@ -85,6 +147,22 @@ module DataStructures
     attr_writer :size
     # @return [Node]
     attr_accessor :head, :tail
+
+    # @param node [Node]
+    # @return the value of the Node
+    def remove_node(node)
+      return remove_first if node.prev.nil?
+      return remove_last if node.nxt.nil?
+
+      node.prev.nxt = node.nxt
+      node.nxt.prev = node.prev
+
+      result = node.value
+
+      node.nxt = node.prev = nil
+      self.size -= 1
+      result
+    end
 
     # A node within the linked list
     class Node
