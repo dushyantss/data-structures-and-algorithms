@@ -79,7 +79,7 @@ module DataStructures
       result
     end
 
-    # @return the value of the Node
+    # @return [Object] the value of the last Node
     def remove_last
       return if empty?
 

@@ -7,6 +7,7 @@ gemspec
 
 gem "rake", "~> 13.0"
 
+gem "benchmark-ips", "~> 2.10"
 gem "minitest", "~> 5.0"
 
 gem "rubocop", "~> 1.21"
