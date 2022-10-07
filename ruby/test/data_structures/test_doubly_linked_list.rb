@@ -4,73 +4,116 @@ require "test_helper"
 
 module DataStructures
   class TestDoublyLinkedList < Minitest::Test
-    def test_remove_first
-      list = list_with_dummy_data
-
-      val = list.remove_first
-
-      assert_equal 1, val
-      assert_equal 2, list.size
-    end
-
-    def test_remove_last
-      list = list_with_dummy_data
-
-      val = list.remove_last
-
-      assert_equal 3, val
-      assert_equal 2, list.size
-    end
-
-    def test_remove_at
-      list = large_list_with_dummy_data
-
-      val = list.remove_at(3)
-
-      assert_equal 4, val
-      assert_equal 5, list.size
-
-      val = list.remove_at(1)
-
-      assert_equal 2, val
-      assert_equal 4, list.size
-    end
-
-    def test_index_of
-      list = large_list_with_dummy_data
-
-      val = list.index_of(3)
-
-      assert_equal 2, val
-      assert_equal 6, list.size
-    end
-
-    def test_remove
-      list = large_list_with_dummy_data
-
-      val = list.remove(3)
-
-      assert_equal 3, val
-      assert_equal 5, list.size
-    end
-
-    def test_contains
-      list = large_list_with_dummy_data
-
-      assert list.contains(3)
-      refute list.contains(36)
-    end
-
     def test_each
-      list = large_list_with_dummy_data
-
-      assert_equal [1, 2, 3, 4, 5, 6], list.each.map(&:itself)
+      list = list_with_dummy_data
+      assert_equal [1, 2, 3], list.map(&:itself)
     end
 
     def test_reverse_each
-      list = large_list_with_dummy_data
+      list = list_with_dummy_data
+      assert_equal [3, 2, 1], list.reverse_each.map(&:itself)
+    end
 
-      assert_equal [6, 5, 4, 3, 2, 1], list.reverse_each.map(&:itself)
+    def test_inspect
+      list = list_with_dummy_data
+
+      assert_equal "[1, 2, 3]", list.inspect
+    end
+
+    def test_to_s
+      list = list_with_dummy_data
+
+      assert_equal "[1, 2, 3]", list.to_s
+    end
+
+    def test_equality
+      list = list_with_dummy_data
+      list2 = list_with_dummy_data
+
+      assert_equal list, list2
+    end
+
+    def test_index_based_retrieval
+      list = list_with_dummy_data
+
+      assert_equal 1, list[0]
+      assert_equal 1, list.at(0)
+    end
+
+    def test_index_based_setting_value
+      list = list_with_dummy_data
+
+      list[0] = 3
+      assert_equal 3, list[0]
+    end
+
+    def test_first
+      list = list_with_dummy_data
+
+      assert_equal 1, list.first
+      assert_equal [1, 2], list.first(2)
+    end
+
+    def test_last
+      list = list_with_dummy_data
+
+      assert_equal 3, list.last
+      assert_equal [2, 3], list.last(2)
+    end
+
+    def test_concat
+      list = list_with_dummy_data
+
+      assert_equal [1, 2, 3, 1, 2, 3], list.concat([1, 2, 3]).to_a
+    end
+
+    def test_clear
+      list = list_with_dummy_data
+
+      list.clear
+
+      assert_empty list
+    end
+
+    def test_empty?
+      list = list_with_dummy_data
+
+      refute_empty list
+    end
+
+    def test_append_push_pop_shift_unshift
+      list = list_with_dummy_data
+      list << 1
+
+      assert_equal 1, list.last
+
+      list.push 2
+
+      assert_equal 2, list.last
+
+      assert_equal 2, list.pop
+      assert_equal 1, list.last
+
+      list.shift 2
+
+      assert_equal 2, list.first
+
+      assert_equal 2, list.unshift
+      assert_equal 1, list.first
+    end
+
+    def test_remove_at
+      list = list_with_dummy_data
+
+      assert_equal 2, list.remove_at(1)
+      assert_equal [1, 3], list.to_a
+    end
+
+    def test_remove
+      list = list_with_dummy_data
+
+      assert_equal 2, list.remove(2)
+      assert_equal [1, 3], list.to_a
     end
 
     private
