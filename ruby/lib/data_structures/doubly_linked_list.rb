@@ -2,7 +2,7 @@
 
 module DataStructures
   # An implementation of Doubly linked list
-  class DoublyLinkedList
+  class RubyDoublyLinkedList
     include Enumerable
 
     alias to_ary to_a
@@ -271,4 +271,11 @@ module DataStructures
       node.value
     end
   end
+end
+
+begin
+  require "data_structures/c_doubly_linked_list"
+  DataStructures::DoublyLinkedList = DataStructures::CDoublyLinkedList
+rescue LoadError # C Version could not be found, try ruby version
+  DataStructures::DoublyLinkedList = DataStructures::RubyDoublyLinkedList
 end

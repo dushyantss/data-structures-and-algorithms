@@ -1,15 +1,22 @@
 # frozen_string_literal: true
 
 require "bundler/gem_tasks"
+require "rake/extensiontask"
 require "rake/testtask"
+require "rubocop/rake_task"
+
+extension_regex = /create_makefile\("(.*)"\)/
+Dir.glob("./ext/**/extconf.rb").each do |filename|
+  content = File.read(filename)
+  name = content.match(extension_regex)[1]
+  Rake::ExtensionTask.new(name)
+end
 
 Rake::TestTask.new(:test) do |t|
   t.libs << "test"
   t.libs << "lib"
   t.test_files = FileList["test/**/test_*.rb"]
 end
-
-require "rubocop/rake_task"
 
 RuboCop::RakeTask.new do |task|
   task.requires << "rubocop-minitest"
