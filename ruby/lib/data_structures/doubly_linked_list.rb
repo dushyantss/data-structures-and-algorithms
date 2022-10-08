@@ -2,7 +2,7 @@
 
 module DataStructures
   # An implementation of Doubly linked list
-  class RubyDoublyLinkedList
+  class DoublyLinkedList
     include Enumerable
 
     alias to_ary to_a
@@ -276,10 +276,16 @@ module DataStructures
   end
 end
 
-DataStructures::DoublyLinkedList = begin
-  require "data_structures/c_doubly_linked_list"
-  DataStructures::CDoublyLinkedList
-rescue LoadError # C Version could not be found, try ruby version
-  pp "Could not load c extensions for DoublyLinkedList"
-  DataStructures::RubyDoublyLinkedList
-end
+# No longer using the c extension since its performance is worse than array
+# for push, pop, shift and unshift. If it can't be faster even for shift and unshift
+# then the only use case for it is to use when we can't afford to double the array
+# size due to memory constraints and I am not sure I'd still like to use a
+# linked list there due to performance reasons.
+
+# DataStructures::DoublyLinkedList = begin
+#   require "data_structures/c_doubly_linked_list"
+#   DataStructures::CDoublyLinkedList
+# rescue LoadError # C Version could not be found, try ruby version
+#   pp "Could not load c extensions for DoublyLinkedList"
+#   DataStructures::RubyDoublyLinkedList
+# end

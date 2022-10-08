@@ -1,5 +1,6 @@
 #include "ruby.h"
 
+// NOTE: UNFISHISHED. Was slower than array so abandoned.
 typedef struct struct_doubly_linked_list_node {
   VALUE value;
   struct struct_doubly_linked_list_node *prev;
