@@ -10,13 +10,13 @@ module DataStructures
     # @return [Integer]
     attr_reader :size
 
-    # @param collection [#each] a collection which will be moved into this
-    def initialize(collection = nil)
+    # @param ary [Array] a collection which will be moved into this
+    def initialize(ary = nil)
       @size = 0
       # @type [Node]
       @head = @tail = nil
 
-      concat(collection) if collection
+      concat(ary) if ary
     end
 
     # Runs the provided block on every value of the list.
@@ -276,9 +276,10 @@ module DataStructures
   end
 end
 
-begin
+DataStructures::DoublyLinkedList = begin
   require "data_structures/c_doubly_linked_list"
-  DataStructures::DoublyLinkedList = DataStructures::CDoublyLinkedList
+  DataStructures::CDoublyLinkedList
 rescue LoadError # C Version could not be found, try ruby version
-  DataStructures::DoublyLinkedList = DataStructures::RubyDoublyLinkedList
+  pp "Could not load c extensions for DoublyLinkedList"
+  DataStructures::RubyDoublyLinkedList
 end

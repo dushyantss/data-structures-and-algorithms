@@ -9,14 +9,15 @@ Benchmark.ips do |x|
   x.config(time: 1, warmup: 0)
 
   x.report("doubly_linked_list") do
+    dll = DataStructures::DoublyLinkedList.new
     1_000_000.times do |n|
-      dll = DataStructures::DoublyLinkedList.new
       dll << n
     end
   end
+
   x.report("array") do
+    l = []
     1_000_000.times do |n|
-      l = []
       l << n
     end
   end
@@ -48,14 +49,15 @@ Benchmark.ips do |x|
   x.config(time: 1, warmup: 0)
 
   x.report("doubly_linked_list") do
+    dll = DataStructures::DoublyLinkedList.new
     1_000_000.times do |n|
-      dll = DataStructures::DoublyLinkedList.new
       dll.shift(n)
     end
   end
+
   x.report("array") do
+    l = []
     1_000_000.times do |n|
-      l = []
       l.shift(n)
     end
   end
