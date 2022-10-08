@@ -10,10 +10,13 @@ module DataStructures
     # @return [Integer]
     attr_reader :size
 
-    def initialize
+    # @param collection [#each] a collection which will be moved into this
+    def initialize(collection = nil)
       @size = 0
       # @type [Node]
       @head = @tail = nil
+
+      concat(collection) if collection
     end
 
     # Runs the provided block on every value of the list.

@@ -9,5 +9,9 @@
 
 *.bundle
 *.so
+*.o
 *.dll
 *.gem
+/ext/**/Makefile
+.cache/
+compile_commands.json
