@@ -12,9 +12,9 @@ module DataStructures
 
     # @param ary [Array] a collection which will be moved into this
     def initialize(ary = nil)
-      @size = 0
+      self.size = 0
       # @type [Node]
-      @head = @tail = nil
+      self.head = self.tail = nil
 
       concat(ary) if ary
     end
@@ -27,7 +27,7 @@ module DataStructures
     def each
       return to_enum(:each) unless block_given?
 
-      node = @head
+      node = head
       until node.nil?
         yield node.value
         node = node.next
@@ -42,7 +42,7 @@ module DataStructures
     def reverse_each
       return to_enum(:reverse_each) unless block_given?
 
-      node = @tail
+      node = tail
       until node.nil?
         yield node.value
         node = node.prev
@@ -97,7 +97,7 @@ module DataStructures
     # @param count [Integer, NilClass]
     # @return [Object, Array, NilClass]
     def first(count = nil)
-      return @head&.value if count.nil?
+      return head&.value if count.nil?
 
       take(count)
     end
@@ -108,9 +108,9 @@ module DataStructures
     # @param count [Integer, NilClass]
     # @return [Object, Array, NilClass]
     def last(count = nil)
-      return @tail&.value if count.nil?
+      return tail&.value if count.nil?
 
-      drop(@size - count)
+      drop(size - count)
     end
 
     # Concats the other collection within the current list and returns self
@@ -130,15 +130,15 @@ module DataStructures
     # Clear the list
     def clear
       # GC would reclaim all the other nodes
-      @head = @tail = nil
-      @size = 0
+      self.head = self.tail = nil
+      self.size = 0
       self
     end
 
     # Whether the list is empty?
     # @return [Boolean]
     def empty?
-      @size.zero?
+      size.zero?
     end
 
     # Append the value to the list at the end
@@ -162,13 +162,13 @@ module DataStructures
     # Remove the value to the list from the start
     # @return [Object, NilClass] the value, or nil if empty list
     def shift
-      remove_node(@head)
+      remove_node(head)
     end
 
     # Remove the value to the list from the end
     # @return [Object, NilClass] the value, or nil if empty list
     def pop
-      remove_node(@tail)
+      remove_node(tail)
     end
 
     # Remove the value at the index and return it
@@ -187,30 +187,33 @@ module DataStructures
 
     private
 
+    attr_writer :size
+    attr_accessor :head, :tail
+
     Node = Struct.new(:value, :prev, :next, keyword_init: true)
 
     def append_first(value)
-      node = Node.new(value: value, next: @head)
-      @size += 1
+      node = Node.new(value: value, next: head)
+      self.size += 1
 
-      (@head = @tail = node) && return if @size == 1
+      (self.head = self.tail = node) && return if size == 1
 
-      @head.prev = node
-      @head = node
+      head.prev = node
+      self.head = node
 
-      @size += 1
+      self.size += 1
 
       self
     end
 
     def append_last(value)
-      node = Node.new(value: value, prev: @tail)
-      @size += 1
+      node = Node.new(value: value, prev: tail)
+      self.size += 1
 
-      (@head = @tail = node) && return if @size == 1
+      (self.head = self.tail = node) && return if size == 1
 
-      @tail.next = node
-      @tail = node
+      tail.next = node
+      self.tail = node
 
       value
     end
@@ -218,7 +221,7 @@ module DataStructures
     def each_node
       return to_enum(:each_node) unless block_given?
 
-      node = @head
+      node = head
       until node.nil?
         yield node
         node = node.next
@@ -237,26 +240,26 @@ module DataStructures
              else
                val.public_send(val_method)
              end
-        s << ", " unless i == @size - 1
+        s << ", " unless i == size - 1
       end
       s << "]"
       s
     end
 
     def node_at(index)
-      index += @size if index.negative?
+      index += size if index.negative?
 
-      return @head if index.zero?
+      return head if index.zero?
 
-      return nil if index >= @size || index.negative?
-      return @tail if index == (@size - 1)
+      return nil if index >= size || index.negative?
+      return tail if index == (size - 1)
 
       node = nil
-      if index <= (@size / 2)
-        node = @head
+      if index <= (size / 2)
+        node = head
         index.times { node = node.next }
       else
-        node = @tail
+        node = tail
         (size - index - 1).times { node = node.prev }
       end
 
@@ -271,10 +274,10 @@ module DataStructures
       node.prev.next = node.next unless node.prev.nil?
       node.next.prev = node.prev unless node.next.nil?
 
-      @head = node.next if node.prev.nil?
-      @tail = node.prev if node.next.nil?
+      self.head = node.next if node.prev.nil?
+      self.tail = node.prev if node.next.nil?
 
-      @size -= 1
+      self.size -= 1
       node.value
     end
   end
