@@ -1,6 +1,7 @@
 #include "ruby.h"
 
-// NOTE: UNFISHISHED. Was slower than array so abandoned.
+// NOTE: UNFISHISHED. Not reliably more performant than an array even for
+// queues, which is its main purpose.
 typedef struct struct_doubly_linked_list_node {
   VALUE value;
   struct struct_doubly_linked_list_node *prev;
@@ -249,13 +250,13 @@ void Init_c_doubly_linked_list() {
   rb_define_method(c_doubly_linked_list, "reverse_each",
                    doubly_linked_list_reverse_each, 0);
   rb_define_method(c_doubly_linked_list, "<<", doubly_linked_list_push_back, 1);
-  rb_define_method(c_doubly_linked_list, "shift", doubly_linked_list_push_front,
+  rb_define_method(c_doubly_linked_list, "unshift", doubly_linked_list_push_front,
                    1);
   // rb_define_method(c_doubly_linked_list, "clear", doubly_linked_list_clear,
   // 0); rb_define_method(c_doubly_linked_list, "front",
   // doubly_linked_list_front, 0); rb_define_method(c_doubly_linked_list,
   // "back", doubly_linked_list_back, 0);
-  rb_define_method(c_doubly_linked_list, "unshift",
+  rb_define_method(c_doubly_linked_list, "shift",
                    doubly_linked_list_pop_front, 0);
   rb_define_method(c_doubly_linked_list, "pop", doubly_linked_list_pop_back, 0);
   // rb_define_method(c_doubly_linked_list, "size", doubly_linked_list_size, 0);

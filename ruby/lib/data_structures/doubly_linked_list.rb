@@ -69,7 +69,7 @@ module DataStructures
     # @param other [DataStructures::DoublyLinkedList] the other list
     # @return [Boolean, NilClass]
     def ==(other)
-      return if other.nil? || !other.is_a?(self.class) || other.size != size
+      return false if other.nil? || !other.is_a?(self.class) || other.size != size
 
       zip(other).all? { |v, other_v| v == other_v }
     end
@@ -132,6 +132,7 @@ module DataStructures
       # GC would reclaim all the other nodes
       @head = @tail = nil
       @size = 0
+      self
     end
 
     # Whether the list is empty?
@@ -154,13 +155,13 @@ module DataStructures
 
     # Append the value to the list at the start
     # @param value [Object]
-    def shift(value)
+    def unshift(value)
       append_first(value)
     end
 
     # Remove the value to the list from the start
     # @return [Object, NilClass] the value, or nil if empty list
-    def unshift
+    def shift
       remove_node(@head)
     end
 
@@ -198,6 +199,8 @@ module DataStructures
       @head = node
 
       @size += 1
+
+      self
     end
 
     def append_last(value)
@@ -208,6 +211,8 @@ module DataStructures
 
       @tail.next = node
       @tail = node
+
+      value
     end
 
     def each_node
@@ -221,18 +226,17 @@ module DataStructures
     end
 
     def find_node(value)
-      iter = each_node
-      while (node = iter.next)
-        return node if node.value == value
-      end
-    rescue StopIteration
-      nil
+      each_node.find { |node| node.value == value }
     end
 
     def to_string(val_method: :to_s)
       s = String.new "["
       each_with_index do |val, i|
-        s << val.public_send(val_method)
+        s << if val.equal?(self)
+               "[...]"
+             else
+               val.public_send(val_method)
+             end
         s << ", " unless i == @size - 1
       end
       s << "]"
