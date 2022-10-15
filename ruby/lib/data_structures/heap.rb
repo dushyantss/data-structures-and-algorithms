@@ -37,31 +37,11 @@ module DataStructures
     end
 
     def pop
-      return ary.pop if length <= 1
+      remove_at(0)
+    end
 
-      ary[0], ary[-1] = ary[-1], ary[0]
-      val = ary.pop
-      i = 0
-      while i < length
-        l = left(i)
-        r = right(i)
-        if l < length && ary[l].public_send(comparator, ary[i])
-          if r < length && ary[r].public_send(comparator, ary[l])
-            ary[i], ary[r] = ary[r], ary[i]
-            i = r
-          else
-            ary[i], ary[l] = ary[l], ary[i]
-            i = l
-          end
-        elsif r < length && ary[r].public_send(comparator, ary[l])
-          ary[i], ary[r] = ary[r], ary[i]
-          i = r
-        else
-          break
-        end
-      end
-
-      val
+    def remove(val)
+      remove_at(ary.index(val))
     end
 
     # @param collection [#each] the collection to heapify
@@ -88,6 +68,34 @@ module DataStructures
 
     def right(i)
       (2 * i) + 2
+    end
+
+    def remove_at(i)
+      return if i.nil? || i.negative? || i >= length
+      return ary.pop if length <= 1
+
+      ary[i], ary[-1] = ary[-1], ary[i]
+      val = ary.pop
+      while i < length
+        l = left(i)
+        r = right(i)
+        if l < length && ary[l].public_send(comparator, ary[i])
+          if r < length && ary[r].public_send(comparator, ary[l])
+            ary[i], ary[r] = ary[r], ary[i]
+            i = r
+          else
+            ary[i], ary[l] = ary[l], ary[i]
+            i = l
+          end
+        elsif r < length && ary[r].public_send(comparator, ary[l])
+          ary[i], ary[r] = ary[r], ary[i]
+          i = r
+        else
+          break
+        end
+      end
+
+      val
     end
   end
 

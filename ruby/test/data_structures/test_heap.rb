@@ -26,6 +26,17 @@ module DataStructures
 
       assert_equal 1, heap.peek
     end
+
+    def test_remove
+      heap = MinHeap.new([11, 123, 1])
+
+      val = heap.remove 1
+
+      assert_equal 1, val
+      assert_equal 2, heap.length
+      assert_equal 11, heap.pop
+      assert_equal 123, heap.pop
+    end
   end
 
   class TestMaxHeapList < Minitest::Test
@@ -50,6 +61,17 @@ module DataStructures
       heap = MaxHeap.new([11, 123, 1])
 
       assert_equal 123, heap.peek
+    end
+
+    def test_remove
+      heap = MaxHeap.new([11, 123, 1])
+
+      val = heap.remove 1
+
+      assert_equal 1, val
+      assert_equal 2, heap.length
+      assert_equal 123, heap.pop
+      assert_equal 11, heap.pop
     end
   end
 end
