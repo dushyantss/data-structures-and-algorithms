@@ -6,11 +6,13 @@ module DataStructures
   class TestDoublyLinkedList < Minitest::Test
     def test_each
       list = list_with_dummy_data
+
       assert_equal [1, 2, 3], list.map(&:itself)
     end
 
     def test_reverse_each
       list = list_with_dummy_data
+
       assert_equal [3, 2, 1], list.reverse_each.map(&:itself)
     end
 
@@ -44,6 +46,7 @@ module DataStructures
       list = list_with_dummy_data
 
       list[0] = 3
+
       assert_equal 3, list[0]
     end
 
@@ -64,7 +67,9 @@ module DataStructures
     def test_concat
       list = list_with_dummy_data
 
+      # rubocop:disable Style/ConcatArrayLiterals
       assert_equal [1, 2, 3, 1, 2, 3], list.concat([1, 2, 3]).to_a
+      # rubocop:enable Style/ConcatArrayLiterals
     end
 
     def test_clear

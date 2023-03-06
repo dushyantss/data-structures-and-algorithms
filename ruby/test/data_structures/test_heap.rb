@@ -3,7 +3,7 @@
 require "test_helper"
 
 module DataStructures
-  class TestMinHeapList < Minitest::Test
+  class TestMinHeap < Minitest::Test
     def test_initialize_and_pop
       heap = MinHeap.new([11, 123, 1])
 
@@ -18,6 +18,7 @@ module DataStructures
       heap << 11
       heap << 12_223
       heap << 1
+
       assert_equal 1, heap.peek
     end
 
@@ -39,7 +40,7 @@ module DataStructures
     end
   end
 
-  class TestMaxHeapList < Minitest::Test
+  class TestMaxHeap < Minitest::Test
     def test_initialize_and_pop
       heap = MaxHeap.new([11, 123, 1])
 
@@ -54,6 +55,7 @@ module DataStructures
       heap << 11
       heap << 12_223
       heap << 1
+
       assert_equal 12_223, heap.peek
     end
 
