@@ -3,7 +3,7 @@
 require "test_helper"
 
 module DataStructures
-  class TestDoublyLinkedList < Minitest::Test
+  class TestRubyDoublyLinkedList < Minitest::Test
     def test_each
       list = list_with_dummy_data
 
@@ -124,7 +124,7 @@ module DataStructures
     private
 
     def list_with_dummy_data
-      list = DoublyLinkedList.new
+      list = RubyDoublyLinkedList.new
       list << 1
       list << 2
       list << 3

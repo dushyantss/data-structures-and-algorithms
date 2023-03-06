@@ -2,7 +2,7 @@
 
 module DataStructures
   # An implementation of Doubly linked list
-  class DoublyLinkedList
+  class RubyDoublyLinkedList
     include Enumerable
 
     alias to_ary to_a
@@ -193,7 +193,7 @@ module DataStructures
     Node = Struct.new(:value, :prev, :next, keyword_init: true)
 
     def append_first(value)
-      node = Node.new(value: value, next: head)
+      node = Node.new(value:, next: head)
       self.size += 1
 
       (self.head = self.tail = node) && return if size == 1
@@ -207,7 +207,7 @@ module DataStructures
     end
 
     def append_last(value)
-      node = Node.new(value: value, prev: tail)
+      node = Node.new(value:, prev: tail)
       self.size += 1
 
       (self.head = self.tail = node) && return if size == 1
@@ -289,10 +289,12 @@ end
 # size due to memory constraints and I am not sure I'd still like to use a
 # linked list there due to performance reasons.
 
-# DataStructures::DoublyLinkedList = begin
-#   require "data_structures/c_doubly_linked_list"
-#   DataStructures::CDoublyLinkedList
-# rescue LoadError # C Version could not be found, try ruby version
-#   pp "Could not load c extensions for DoublyLinkedList"
-#   DataStructures::RubyDoublyLinkedList
-# end
+# rubocop:disable Naming/ConstantName
+DataStructures::DoublyLinkedList = begin
+  # rubocop:enable Naming/ConstantName
+  require "data_structures/c_doubly_linked_list"
+  DataStructures::CDoublyLinkedList
+rescue LoadError # C Version could not be found, try ruby version
+  pp "Could not load c extensions for DoublyLinkedList"
+  DataStructures::RubyDoublyLinkedList
+end
