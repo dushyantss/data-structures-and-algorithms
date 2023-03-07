@@ -6,7 +6,11 @@ module DataStructures
   # It is a space-efficient alternative to a suffix tree.
   # Which in turn is a space-efficient alternative to a trie.
   class SuffixArray
-    attr_reader :string, :arr
+    # @return [String] the string that this suffix array is built on
+    attr_reader :string
+
+    # @return [Array] the sorted array of indices
+    attr_reader :arr
 
     def initialize(string)
       @string = string
