@@ -13,7 +13,7 @@ module DataStructures
       end
 
       (1...@tree.size).each do |i|
-        j = i + (i & -i)
+        j = i + lsb(i)
         @tree[j] += @tree[i] if j < @tree.size
       end
     end
