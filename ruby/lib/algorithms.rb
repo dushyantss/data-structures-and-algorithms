@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# The top level module for all algorithms
+# Algorithms is the top level module for all algorithms
 module Algorithms; end
-# The top level module for all data structures
+# DataStructures is the top level module for all data structures
 module DataStructures; end
 
 # Quick and easy way to require everything

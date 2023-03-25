@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Algorithms is the top level module for all algorithms
 module Algorithms
   # Binary search algorithm
   # Array must be sorted
@@ -23,9 +24,9 @@ module Algorithms
     return mid if array[mid] == value
 
     if value < array[mid]
-      do_binary_search(array, value, low, mid - 1)
+      binary_search(array, value, low, mid - 1)
     else
-      do_binary_search(array, value, mid + 1, high)
+      binary_search(array, value, mid + 1, high)
     end
   end
 end
